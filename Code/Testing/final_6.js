@@ -9,16 +9,28 @@ const withoutMaskFolder = "data/standardized/without_mask";
 
 function preload() {
   // Load the images from the with mask folder
+  const selectedIndices = [];
   for (let i = 0; i < 250; i++) {
-    const randomIndex = Math.floor(Math.random() * 3725);
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * 3725);
+    } while (selectedIndices.includes(randomIndex));
+
+    selectedIndices.push(randomIndex);
     const imagePath = `${withMaskFolder}/with_mask_${randomIndex}_64x64.jpg`;
     const image = loadImage(imagePath);
     withMaskImages.push(image);
   }
 
   // Load the images from the without mask folder
+  const selectedIndices2 = [];
   for (let i = 0; i < 250; i++) {
-    const randomIndex = Math.floor(Math.random() * 3828);
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * 3828);
+    } while (selectedIndices2.includes(randomIndex));
+
+    selectedIndices2.push(randomIndex);
     const imagePath = `${withoutMaskFolder}/without_mask_${randomIndex}_64x64.jpg`;
     const image = loadImage(imagePath);
     withoutMaskImages.push(image);
