@@ -14,7 +14,7 @@ function preload() {
     let randomIndex;
     do {
       randomIndex = Math.floor(Math.random() * 3725);
-    } while (selectedIndices.includes(randomIndex));
+    } while (selectedIndices.includes(randomIndex) || randomIndex === 0);
 
     selectedIndices.push(randomIndex);
     const imagePath = `${withMaskFolder}/with_mask_${randomIndex}_64x64.jpg`;
@@ -28,7 +28,7 @@ function preload() {
     let randomIndex;
     do {
       randomIndex = Math.floor(Math.random() * 3828);
-    } while (selectedIndices2.includes(randomIndex));
+    } while (selectedIndices2.includes(randomIndex) || randomIndex === 0);
 
     selectedIndices2.push(randomIndex);
     const imagePath = `${withoutMaskFolder}/without_mask_${randomIndex}_64x64.jpg`;
@@ -54,8 +54,8 @@ function setup() {
     inputs: [64, 64, 4],
     task: "imageClassification",
   });
-  
-/*
+
+  /*
   resultsDiv = createDiv("Loading model...");
 */
 
@@ -67,6 +67,7 @@ function setup() {
 
   maskClassifier.load(modelDetails, () => {
     console.log("Model is loaded");
+    // Call the classifyImage function
     classifyImage(withMaskImages, withoutMaskImages);
   });
 }
