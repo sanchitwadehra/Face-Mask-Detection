@@ -27,7 +27,6 @@ function preload() {
   // Call the classifyImage function when the images are loaded
   Promise.all([...withMaskImages, ...withoutMaskImages]).then(() => {
     console.log("Images are loaded");
-    classifyImage(withMaskImages, withoutMaskImages);
   });
 }
 
@@ -52,6 +51,7 @@ function setup() {
 
   maskClassifier.load(modelDetails, () => {
     console.log("Model is loaded");
+    classifyImage(withMaskImages, withoutMaskImages);
   });
 }
 
