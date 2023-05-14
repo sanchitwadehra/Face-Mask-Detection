@@ -10,7 +10,7 @@ const withoutMaskFolder = "data/standardized/without_mask";
 function preload() {
   // Load the images from the with mask folder
   const selectedIndices = [];
-  for (let i = 0; i < 250; i++) {
+  for (let i = 0; i < 400; i++) {
     let randomIndex;
     do {
       randomIndex = Math.floor(Math.random() * 3725);
@@ -24,7 +24,7 @@ function preload() {
 
   // Load the images from the without mask folder
   const selectedIndices2 = [];
-  for (let i = 0; i < 250; i++) {
+  for (let i = 0; i < 400; i++) {
     let randomIndex;
     do {
       randomIndex = Math.floor(Math.random() * 3828);
