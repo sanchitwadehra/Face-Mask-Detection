@@ -5,6 +5,31 @@ let resultsDiv;
 const withMaskFolder = "data/standardized/with_mask";
 const withoutMaskFolder = "data/standardized/without_mask";
 
+function preload() {
+    // Load the images from the with mask folder
+    const withMaskImages = [];
+    for (let i = 0; i < 250; i++) {
+      const randomIndex = Math.floor(Math.random() * 3725);
+      const imagePath = `${withMaskFolder}/with_mask_${randomIndex}_64x64.jpg`;
+      const image = loadImage(imagePath);
+      withMaskImages.push(image);
+    }
+  
+    // Load the images from the without mask folder
+    const withoutMaskImages = [];
+    for (let i = 0; i < 250; i++) {
+      const randomIndex = Math.floor(Math.random() * 3828);
+      const imagePath = `${withoutMaskFolder}/without_mask_${randomIndex}_64x64.jpg`;
+      const image = loadImage(imagePath);
+      withoutMaskImages.push(image);
+    }
+  
+    // Call the classifyImage function when the images are loaded
+    Promise.all([...withMaskImages, ...withoutMaskImages]).then(() => {
+      classifyImage(withMaskImages, withoutMaskImages);
+    });
+  }
+
 function setup() {
   canvas = createCanvas(400, 400);
   video = createCapture(VIDEO);
@@ -26,31 +51,6 @@ function setup() {
 
   maskClassifier.load(modelDetails, () => {
     console.log("Model is loaded");
-  });
-}
-
-function preload() {
-  // Load the images from the with mask folder
-  const withMaskImages = [];
-  for (let i = 0; i < 250; i++) {
-    const randomIndex = Math.floor(Math.random() * 3725);
-    const imagePath = `${withMaskFolder}/with_mask_${randomIndex}_64x64.jpg`;
-    const image = loadImage(imagePath);
-    withMaskImages.push(image);
-  }
-
-  // Load the images from the without mask folder
-  const withoutMaskImages = [];
-  for (let i = 0; i < 250; i++) {
-    const randomIndex = Math.floor(Math.random() * 3828);
-    const imagePath = `${withoutMaskFolder}/without_mask_${randomIndex}_64x64.jpg`;
-    const image = loadImage(imagePath);
-    withoutMaskImages.push(image);
-  }
-
-  // Call the classifyImage function when the images are loaded
-  Promise.all([...withMaskImages, ...withoutMaskImages]).then(() => {
-    classifyImage(withMaskImages, withoutMaskImages);
   });
 }
 
