@@ -2,12 +2,13 @@ let maskClassifier;
 let canvas;
 let video;
 let resultsDiv;
+let withMaskImages = [];
+let withoutMaskImages = [];
 const withMaskFolder = "data/standardized/with_mask";
 const withoutMaskFolder = "data/standardized/without_mask";
 
 function preload() {
   // Load the images from the with mask folder
-  const withMaskImages = [];
   for (let i = 0; i < 250; i++) {
     const randomIndex = Math.floor(Math.random() * 3725);
     const imagePath = `${withMaskFolder}/with_mask_${randomIndex}_64x64.jpg`;
@@ -16,7 +17,6 @@ function preload() {
   }
 
   // Load the images from the without mask folder
-  const withoutMaskImages = [];
   for (let i = 0; i < 250; i++) {
     const randomIndex = Math.floor(Math.random() * 3828);
     const imagePath = `${withoutMaskFolder}/without_mask_${randomIndex}_64x64.jpg`;
@@ -65,7 +65,7 @@ function classifyImage(withMaskImages, withoutMaskImages) {
       if (error) {
         console.error(error);
       } else {
-        if (result[0].label === "with_mask") {
+        if (result[0].label === "with mask") {
           correct++;
         }
         const accuracy = (correct / total) * 100;
@@ -80,7 +80,7 @@ function classifyImage(withMaskImages, withoutMaskImages) {
       if (error) {
         console.error(error);
       } else {
-        if (result[0].label === "without_mask") {
+        if (result[0].label === "without mask") {
           correct++;
         }
         const accuracy = (correct / total) * 100;
