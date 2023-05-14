@@ -9,16 +9,28 @@ const withoutMaskFolder = "data/standardized/without_mask";
 
 function preload() {
   // Load the images from the with mask folder
-  for (let i = 0; i < 250; i++) {
-    const randomIndex = Math.floor(Math.random() * 3725);
+  const selectedIndices = [];
+  for (let i = 0; i < 500; i++) {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * 3725);
+    } while (selectedIndices.includes(randomIndex));
+
+    selectedIndices.push(randomIndex);
     const imagePath = `${withMaskFolder}/with_mask_${randomIndex}_64x64.jpg`;
     const image = loadImage(imagePath);
     withMaskImages.push(image);
   }
 
   // Load the images from the without mask folder
-  for (let i = 0; i < 250; i++) {
-    const randomIndex = Math.floor(Math.random() * 3828);
+  const selectedIndices2 = [];
+  for (let i = 0; i < 500; i++) {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * 3828);
+    } while (selectedIndices2.includes(randomIndex));
+
+    selectedIndices2.push(randomIndex);
     const imagePath = `${withoutMaskFolder}/without_mask_${randomIndex}_64x64.jpg`;
     const image = loadImage(imagePath);
     withoutMaskImages.push(image);
@@ -31,17 +43,21 @@ function preload() {
 }
 
 function setup() {
+  /*
   canvas = createCanvas(400, 400);
   video = createCapture(VIDEO);
   video.size(64, 64);
+  */
 
   // Create a neural network classifier
   maskClassifier = ml5.neuralNetwork({
     inputs: [64, 64, 4],
     task: "imageClassification",
   });
-
+  
+/*
   resultsDiv = createDiv("Loading model...");
+*/
 
   const modelDetails = {
     model: "model/model.json",
@@ -58,6 +74,7 @@ function setup() {
 function classifyImage(withMaskImages, withoutMaskImages) {
   const total = withMaskImages.length + withoutMaskImages.length;
   let correct = 0;
+  let numClassified = 0;
 
   for (const image of withMaskImages) {
     const imageObj = { image };
@@ -68,8 +85,11 @@ function classifyImage(withMaskImages, withoutMaskImages) {
         if (result[0].label === "with mask") {
           correct++;
         }
-        const accuracy = (correct / total) * 100;
-        console.log(`Accuracy: ${accuracy}%`);
+        numClassified++;
+        if (numClassified === total) {
+          const accuracy = (correct / total) * 100;
+          console.log(`Accuracy: ${accuracy}%`);
+        }
       }
     });
   }
@@ -83,8 +103,11 @@ function classifyImage(withMaskImages, withoutMaskImages) {
         if (result[0].label === "without mask") {
           correct++;
         }
-        const accuracy = (correct / total) * 100;
-        console.log(`Accuracy: ${accuracy}%`);
+        numClassified++;
+        if (numClassified === total) {
+          const accuracy = (correct / total) * 100;
+          console.log(`Accuracy: ${accuracy}%`);
+        }
       }
     });
   }
